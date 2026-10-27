@@ -248,13 +248,60 @@ a standalone justification for the price on either size.
 - Plastic extrusion die: simple structural profile $500-$3,000 — [DFMA](https://www.dfma.com/resources/plastic-extrusion-cost.asp), [Lakeland Plastics](https://lakelandplastics.com/plastic-extrusion-cost-factors/)
 - China domestic LTL/FTL trucking: $1.20-$2.00/km FTL, ~RMB 0.2-1.25/kg at 500km (conflicting sources) — [Sino-Shipping](https://www.sino-shipping.com/zh/road-inland-trucking-from-china/costs/how-ltl-ftl-pricing-works-in-china/)
 
-## To validate before tooling
+## Path to the business-model decision
+
+Direct-sell-vs-royalty (see chat) waits on two things: cost confirmed with
+real numbers, and durability proven on a real prototype. Punch list for
+both, pulled together from everything flagged elsewhere in this doc.
+
+### Cost confirmation — replace every placeholder with a real quote
+
+Every number in `cost_calc.py` today comes from a public vendor-blog or
+marketplace listing, not a quote. In rough order of leverage (biggest
+unknowns, or the ones a whole pitch pillar depends on, first):
+
+1. **Bulk/OEM foam cost, $/ft³** — the single highest-leverage number.
+   Search found no real bulk price at all; the whole "save foam costs"
+   pillar of the pitch is unverified until this exists. Get this before
+   anything else.
+2. **Welded wire mesh, $/kg** — thinnest data of the component costs
+   (single-seller India listings only); it's also the single largest BOM
+   line on both variants.
+3. **Extrusion quote** (3 dies + per-kg run cost) from an actual
+   extruder, PP resin grade specified.
+4. **Injection mold quotes** (corner bracket + mid-span bracket) from 2-3
+   toolmakers, with the real part drawings, not a generic "bracket."
+5. **Domestic freight** — get an actual Xiamen-Guangdong LTL/FTL quote;
+   the published rate data disagreed by 5-6x.
+6. **Leg, pin assembly, insert, bushing, Velcro, assembly-labor** costs —
+   lower leverage individually (commodity hardware, labor), but add them
+   up from a real contract manufacturer's quote rather than the
+   placeholders.
+
+Re-run `python3 cost_calc.py` with each real number as it comes in
+(`--foam-cost-per-ft3`, `--oem-margin-pct`, or edit the constants
+directly) to see how the wholesale price and the foam-savings case move.
+
+### Durability assurance — prove it on a real prototype
 
 - **Detent pin wear** — prototype the hole + steel bushing and cycle it;
   repeated engagement is more likely to loosen the lock over the
   product's life than the pin itself.
-- **Ledge height vs. final stretcher profile** — the ~20mm offset is
-  estimated from a typical 8mm welded-node thickness; confirm against
-  the actual wire vendor's spec once sourced.
+- **Ledge height vs. final stretcher profile** — the ~20mm wire-panel
+  offset is estimated from a typical 8mm welded-node thickness; confirm
+  against the actual wire vendor's spec once sourced.
+- **Sustained-load sag** — the wire grid's whole justification is
+  distributing load to reduce creep in the plastic stretchers; load-test
+  it under a realistic seated weight over time, not just a static check.
+- **Velcro adhesion to PP** — the front-stretcher strip is the one part
+  of this design most likely to just fail quietly over time. Pull-test
+  it, and test the mechanical-fastening fallback if the adhesive alone
+  doesn't hold.
+- **Corner/mid-span bracket joint strength** — the bonded/riveted
+  tube-to-bracket joint carries the whole structural load path; it's
+  described as permanent but hasn't been load- or fatigue-tested.
+- **Frame racking** — check lateral stability at mid-adjustment, between
+  locked positions, since the telescoping stretchers alone don't resist
+  racking the way a fully assembled rigid frame would.
 - **Corrosion protection** on the welded wire grid (zinc/powder coat) —
   not specified; matters if this is for outdoor/patio use.
