@@ -94,6 +94,39 @@ alone. If prototype testing shows sideways or backward slip is also a
 problem, the same strip and mounting detail extends cheaply to the back
 stretcher or the side rails.
 
+## Printable prototype parts
+
+`generate_prototype_stl.py` outputs test coupons for the four highest-risk
+mechanical features from "Path to the business-model decision" below —
+this is what a physical prototype test actually needs, not a finished
+production part. Solid bars instead of hollow extrusions (FDM infill
+handles material efficiency; a real production part would be hollow), no
+threaded inserts or pin/spring hardware printed in (those are off-the-shelf,
+added at assembly).
+
+```
+python3 generate_prototype_stl.py --part all --length 260
+```
+
+Parts: `rail` (side rail test length), `sleeve` + `tube` (the telescoping
+stretcher pair — print both and test the sliding fit and the 0.6mm/side
+clearance directly), `corner` (the L-bracket with both troughs and the leg
+boss), `mid` (sofa variant's mid-span leg mount). `--length` sets the
+rail/sleeve/tube coupon length (default 260mm — long enough to show the
+5-hole pin-lock pattern, short enough to print quickly).
+
+This generator caught a real bug before it reached a printer: the first
+version sized each bracket trough's *outer* width to the part it was
+supposed to receive, which made the trough's *interior* narrower than the
+part — neither the rail nor the sleeve would have physically fit. Fixed by
+sizing the trough's interior to the part's width plus a 0.4mm printable
+clearance, with the walls added outside that.
+
+Pin-lock holes and the insert hole aren't cut into the STL (this generator
+only adds material, it doesn't subtract) — the script prints their
+intended positions to the console; drill them post-print or treat them as
+placement marks for now.
+
 ## Isometric illustration
 
 No photorealistic rendering available in this session — `isometric_view.py`
