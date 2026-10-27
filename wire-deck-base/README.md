@@ -5,12 +5,16 @@ product. A legless floor-sofa module sits low by design — raising it to
 standard American seat height (~17-19") the obvious way, by molding taller
 foam, costs more foam *and* loses the low, grounded profile that's the
 point of that style. This base adds the height from underneath instead,
-so the foam body stays unchanged: fixed 30" depth, width adjustable from
-24" to 36" (12" of travel), plastic frame (two fixed-length side rails +
-three telescoping stretchers — front, center, back), topped with a welded
-steel wire grid deck (4.0mm wire, 50mm pitch) in two overlapping panels
-that slide past each other as the frame widens. 3" screw-in legs. No
-integrated foam — bare structural deck.
+so the foam body stays unchanged: fixed 30" depth, plastic frame (two
+fixed-length side rails + three telescoping stretchers — front, center,
+back), topped with a welded steel wire grid deck (4.0mm wire, 50mm pitch)
+in two overlapping panels that slide past each other as the frame widens.
+3" screw-in legs. No integrated foam — bare structural deck.
+
+Same mechanism, two sizes: a **chair/loveseat module**, width adjustable
+24"-36" (12" of travel, 4 legs), and a **full sofa**, width adjustable
+82"-90" (8" of travel, 6 legs — the longer span needs 2 mid-span legs on
+top of the 4 corners). See "Two sizes: chair and sofa" below.
 
 Sales model: sold to the sofa manufacturer, who passes the cost through to
 their own customer as a line-item add-on rather than marking it up the way
@@ -133,36 +137,71 @@ discount. Run `python3 cost_calc.py` for the full line-item breakdown.
 an extruder, a molder, and a wire-mesh supplier before budgeting against
 it.
 
+### Two sizes: chair and sofa
+
+Same mechanism, same 30" depth, same shared tooling (3 extrusion dies +
+the corner-bracket mold) — only the width range and leg count differ:
+
+| | Chair | Sofa |
+|---|---|---|
+| Width | 24"-36" | 82"-90" |
+| Legs | 4 (corners only) | 6 (4 corners + 2 mid-span) |
+| Stretcher mass | ~1.5kg | ~3.63kg |
+| Wire deck mass | ~2.94kg | ~7.12kg |
+| New tooling vs. the other variant | — (baseline) | ~$4,000 (mid-span leg bracket mold) |
+
+**Why the sofa needs mid-span legs:** the chair's 3 stretchers (front,
+center, back) span only 24"-36", short enough for 4 corner legs alone. At
+82"-90" that span is too long to leave unsupported in the middle. Since
+nothing can sit at a single fixed world-position across both telescoping
+halves at once, each half gets its own mid-span leg, on a small bracket
+bonded to the center stretcher — no rail junction needed, unlike the
+corner brackets.
+
+**Why sofa tooling is mostly shared:** an extrusion die produces a
+constant cross-section cut to any length, so the same 3 dies work for
+both variants. The corner bracket design doesn't change with sofa width
+either. Only the new mid-span leg bracket needs its own mold.
+
 ### Wholesale price, B2B sale
 
 This is a component sale to sofa manufacturers, not a retail product —
 no retail multiple applies. At a 30% OEM margin (judgment default,
-`--oem-margin-pct` in `cost_calc.py`):
+`--oem-margin-pct` in `cost_calc.py`), with chair tooling already in place:
 
-| Volume | Our landed cost | Wholesale price to manufacturer |
-|---|---|---|
-| 1,000 | $47.93 | $62.31 |
-| 10,000 | $29.34 | $38.14 |
-| 100,000 | $25.62 | $33.31 |
+| Variant | Landed cost, 1k units | Landed cost, 10k units | Wholesale, 10k (30%) |
+|---|---|---|---|
+| Chair (own tooling) | $48.10 | $29.50 | $38.14 |
+| Sofa (own tooling) | $73.58 | $49.65 | $64.55 |
+| Sofa (chair tooling exists) | $55.58 | $47.85 | $62.21 |
 
 The manufacturer is expected to pass this through to their own customer
 close to as-is, as a line-item add-on, not mark it up the way they would
-the sofa itself.
+the sofa itself. Run `python3 cost_calc.py --variant chair` or
+`--variant sofa` for the full per-line breakdown, or `--variant both`
+(default) for the side-by-side.
 
-### Foam savings — doesn't close the gap yet
+### Foam savings — doesn't close the gap yet, for either size
 
 The real pitch: this base replaces ~4" of structural foam height (legs 3"
 + frame ~0.47" + wire-panel offset ~0.79") with cheap plastic/wire/leg
-structure, so the manufacturer never molds that extra foam. Over a 30"x30"
-footprint that's 2.08 ft³ of avoided foam.
+structure, so the manufacturer never molds that extra foam.
+
+- **Chair** (30"x30" footprint): 2.08 ft³ avoided.
+- **Sofa** (30"x86" footprint): 5.97 ft³ avoided.
 
 **No real bulk/OEM foam price was found** — web search turned up only a
 single retail sheet-foam listing (~$12/ft³) and density specs, no
-wholesale number. At an unsourced $4.50/ft³ placeholder, foam savings are
-only ~$9.38 — well short of the ~$38 wholesale price at 10,000 units. Run
-`python3 cost_calc.py --foam-cost-per-ft3 <real number>` once you have a
-real quote. Until then, lead with raise + style; foam savings is not yet
-a standalone justification for the price.
+wholesale number. At an unsourced $4.50/ft³ placeholder:
+
+| Variant | Foam saved | vs. wholesale price (10k) |
+|---|---|---|
+| Chair | ~$9.38 | $38.14 — well short |
+| Sofa | ~$26.88 | $62.21 — closer proportionally, still short |
+
+Run `python3 cost_calc.py --foam-cost-per-ft3 <real number>` once you have
+a real quote. Until then, lead with raise + style; foam savings is not yet
+a standalone justification for the price on either size.
 
 ### Cost sources (web search, late Oct 2026 — vendor blogs/marketplaces, not price surveys)
 
