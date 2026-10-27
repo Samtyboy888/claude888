@@ -104,6 +104,34 @@ higher) carries panel B directly above it.
   doesn't move); the overlap zone itself is unfastened, just resting in
   its ledge, free to slide.
 
+## Cost estimate at scale
+
+`cost_calc.py` builds a bottom-up landed-cost estimate from public
+vendor-blog/marketplace pricing (not real quotes — see sources below):
+
+| Volume | Recurring/unit | Tooling/unit | Landed cost/unit | Rule-of-thumb MSRP (3x) |
+|---|---|---|---|---|
+| 1,000 | $32.43 | $18.00 | **$50.43** | $151 |
+| 10,000 | $29.84 | $1.80 | **$31.64** | $95 |
+| 100,000 | $27.57 | $0.18 | **$27.75** | $83 |
+
+Tooling ($18,000: 3 extrusion dies @ ~$2,000 + a shared injection mold for
+both corner-bracket variants @ ~$12,000) drives the scale curve, not the
+recurring BOM — the BOM barely moves beyond a modest bulk-procurement
+discount. Run `python3 cost_calc.py` for the full line-item breakdown.
+
+**This is a rough order of magnitude, not a quote.** Get real numbers from
+an extruder, a molder, and a wire-mesh supplier before budgeting against
+it.
+
+### Cost sources (web search, late Oct 2026 — vendor blogs/marketplaces, not price surveys)
+
+- PP resin ~$1.00-1.20/kg bulk: [Expert Market Research](https://www.expertmarketresearch.com/price-forecast/polypropylene-price-trends), [IMARC](https://www.imarcgroup.com/polypropylene-pricing-report), [Intratec](https://www.intratec.us/chemical-markets/polypropylene-price)
+- Welded wire mesh, 4mm wire: [~4.0kg/m² weight figure, Alibaba](https://www.alibaba.com/product-introduction/Welded-Wire-Mesh-Weight-Per-Square_60794829193.html); per-kg price only found as single-seller India listings (~$0.65-0.70/kg equivalent) — thin data, flagged
+- Small injection mold tooling: single-cavity bracket mold $5,000-$12,000 — [TeamRapidTooling](https://www.teamrapidtooling.com/blog/wp-json/wp/v2/posts/2397), [Formlabs](https://formlabs.com/blog/injection-molding-cost/), [ABIS Mould](https://www.abismould.com/info/breaking-down-injection-mold-costs-103163410.html)
+- Screw-in/metal furniture legs: $0.37-$1.50/pc bulk — [Accio B2B aggregator](https://www.accio.com/biz-cheap/supply-cheap-y-shape-sofa-leg); leveling feet retail ~$0.86/ea — eBay listing
+- Plastic extrusion die: simple structural profile $500-$3,000 — [DFMA](https://www.dfma.com/resources/plastic-extrusion-cost.asp), [Lakeland Plastics](https://lakelandplastics.com/plastic-extrusion-cost-factors/)
+
 ## To validate before tooling
 
 - **Detent pin wear** — prototype the hole + steel bushing and cycle it;
