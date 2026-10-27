@@ -57,15 +57,47 @@ via a molded corner bracket with an integral leg boss:
   the telescoping joint. The width-adjustment slide stays free until the
   separate locking mechanism (below) engages.
 
-## Assumptions to confirm (not in the brief)
+## Width lock — detent pin (proposed)
 
-- **Locking mechanism.** Nothing in the brief says how the width setting
-  is held once extended — no pin, cam lock, or detent implied. Without
-  one, a seated/leaned-on load can push the frame to slide. This needs an
-  answer before the stretcher cross-section is finalized.
-- **Wire panel vertical offset.** For two flat wire panels to telescope
-  past each other without snagging, they need to ride on slightly
-  different planes (a few mm apart) within the deck's overall thickness —
-  not specified yet.
+Spring-loaded ball-detent pull-pin through the outer sleeve of the front
+and back stretchers only — the sliding corner brackets already hold all
+three stretchers square to each other, so a third pin on the center
+stretcher would be redundant and risks the three not aligning exactly.
+
+- Pin drops into one of 7 holes drilled through the inner tube at 2"
+  increments, covering the full 24"-36" range.
+- Positive mechanical lock, not friction — won't creep under sustained
+  seated load the way a cam or screw clamp can.
+- Each hole is a stress riser in a load-bearing plastic tube: spec a
+  molded-in steel bushing at every hole (repeated pin engagement will
+  ovalize/wear a bare plastic hole), and put the holes on the tube's side
+  walls near the bending neutral axis, not the top/bottom faces that see
+  peak bending stress.
+
+## Wire panel vertical offset (proposed)
+
+Mold two step-height ledges into each stretcher's top face, running the
+width direction: a lower ledge carries panel A, an upper ledge (~12mm
+higher) carries panel B directly above it.
+
+- A welded-wire node is roughly 2x the wire diameter thick (~8mm at a
+  4.0mm wire crossing) — the step has to clear that plus a couple mm of
+  running clearance, not just the 4mm single-wire diameter.
+- Stack: ~2mm ledge + 8mm panel A + 2mm clearance + 8mm panel B ≈ 20mm
+  total, which adds to the overall deck height on top of the stretcher
+  profile — fold this into the seat-height calculation once the
+  stretcher cross-section is set.
+- Each panel is clipped down only at its fixed edge (the end that
+  doesn't move); the overlap zone itself is unfastened, just resting in
+  its ledge, free to slide.
+
+## To validate before tooling
+
+- **Detent pin wear** — prototype the hole + steel bushing and cycle it;
+  repeated engagement is more likely to loosen the lock over the
+  product's life than the pin itself.
+- **Ledge height vs. final stretcher profile** — the ~20mm offset is
+  estimated from a typical 8mm welded-node thickness; confirm against
+  the actual wire vendor's spec once sourced.
 - **Corrosion protection** on the welded wire grid (zinc/powder coat) —
   not specified; matters if this is for outdoor/patio use.
