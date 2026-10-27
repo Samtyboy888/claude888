@@ -19,8 +19,9 @@ sofas). See "Two sizes: chair and sofa" below.
 
 Sales model: sold to the sofa manufacturer, who passes the cost through to
 their own customer as a line-item add-on rather than marking it up the way
-they would the sofa itself. Made and sold in China (Xiamen to Guangdong,
-~550km) — freight and packaging are domestic, not export.
+they would the sofa itself. Sourced, made, and sold in China (Xiamen to
+Guangdong, ~550km) — materials and tooling are domestic, not imported,
+and freight/packaging are factory-to-factory, not export.
 
 Foam retention: a front-stretcher adhesive Velcro strip stops the foam
 body sliding forward (the dominant failure direction — people sit down
@@ -144,8 +145,14 @@ higher) carries panel B directly above it.
 
 `cost_calc.py` builds a bottom-up landed-cost estimate from public
 vendor-blog/marketplace pricing (not real quotes — see sources below).
-Made and sold in China (Xiamen to Guangdong, ~550km): freight and
-packaging are domestic factory-to-factory shipment, not export.
+Sourced, made, and sold in China (Xiamen to Guangdong, ~550km): resin,
+wire mesh, legs, hardware and tooling are all assumed domestic, not
+imported; freight and packaging are factory-to-factory, not export.
+Resin dropped from a ~$1.10/kg global-blended figure to the ~$0.99/kg
+China-specific number found in the same search. Tooling quotes are left
+as a conservative high-side placeholder since the only sources found were
+Western-facing rapid-tooling platforms, not direct Chinese toolmaker
+pricing — a real domestic quote will likely come in lower.
 
 **This is a rough order of magnitude, not a quote.** Get real numbers from
 an extruder, a molder, and a wire-mesh supplier before budgeting against
@@ -196,9 +203,9 @@ no retail multiple applies. At a 30% OEM margin (judgment default,
 
 | Variant | Landed cost, 1k units | Landed cost, 10k units | Wholesale, 10k (30%) |
 |---|---|---|---|
-| Chair (own tooling) | $44.30 | $26.00 | $31.46 |
-| Loveseat/sofa (own tooling) | $66.28 | $42.94 | $55.82 |
-| Loveseat/sofa (chair tooling exists) | $48.28 | $41.14 | $53.48 |
+| Chair (own tooling) | $41.74 | $23.64 | $28.39 |
+| Loveseat/sofa (own tooling) | $60.56 | $37.68 | $48.98 |
+| Loveseat/sofa (chair tooling exists) | $42.56 | $35.88 | $46.64 |
 
 The manufacturer is expected to pass this through to their own customer
 close to as-is, as a line-item add-on, not mark it up the way they would
@@ -232,8 +239,8 @@ wholesale number. At an unsourced $4.50/ft³ placeholder:
 
 | Variant | Foam saved | vs. wholesale price (10k) |
 |---|---|---|
-| Chair | ~$9.38 | $31.46 — well short |
-| Loveseat/sofa | ~$22.81 | $53.48 — closer proportionally, still short |
+| Chair | ~$9.38 | $28.39 — well short |
+| Loveseat/sofa | ~$22.81 | $46.64 — closer proportionally, still short |
 
 Run `python3 cost_calc.py --foam-cost-per-ft3 <real number>` once you have
 a real quote. Until then, lead with raise + style; foam savings is not yet
@@ -241,9 +248,9 @@ a standalone justification for the price on either size.
 
 ### Cost sources (web search, late Oct 2026 — vendor blogs/marketplaces, not price surveys)
 
-- PP resin ~$1.00-1.20/kg bulk: [Expert Market Research](https://www.expertmarketresearch.com/price-forecast/polypropylene-price-trends), [IMARC](https://www.imarcgroup.com/polypropylene-pricing-report), [Intratec](https://www.intratec.us/chemical-markets/polypropylene-price)
-- Welded wire mesh, 4mm wire: [~4.0kg/m² weight figure, Alibaba](https://www.alibaba.com/product-introduction/Welded-Wire-Mesh-Weight-Per-Square_60794829193.html); per-kg price only found as single-seller India listings (~$0.65-0.70/kg equivalent) — thin data, flagged
-- Small injection mold tooling: single-cavity bracket mold $5,000-$12,000 — [TeamRapidTooling](https://www.teamrapidtooling.com/blog/wp-json/wp/v2/posts/2397), [Formlabs](https://formlabs.com/blog/injection-molding-cost/), [ABIS Mould](https://www.abismould.com/info/breaking-down-injection-mold-costs-103163410.html)
+- PP resin, **China-specific**: ~$0.99/kg (China, Q4 2025) — [Expert Market Research](https://www.expertmarketresearch.com/price-forecast/polypropylene-price-trends); Northeast Asia ~$1.05/kg — [IMARC](https://www.imarcgroup.com/polypropylene-pricing-report); used in place of the ~$1.10-1.20/kg global-blended figure the same searches also returned ([Intratec](https://www.intratec.us/chemical-markets/polypropylene-price))
+- Welded wire mesh, 4mm wire, **not China-specific**: [~4.0kg/m² weight figure, Alibaba](https://www.alibaba.com/product-introduction/Welded-Wire-Mesh-Weight-Per-Square_60794829193.html); per-kg price only found as single-seller India listings (~$0.65-0.70/kg equivalent) — thin data, flagged, highest-priority item for a real China quote
+- Small injection mold tooling, **not China-specific**: single-cavity bracket mold $5,000-$12,000 — [TeamRapidTooling](https://www.teamrapidtooling.com/blog/wp-json/wp/v2/posts/2397), [Formlabs](https://formlabs.com/blog/injection-molding-cost/), [ABIS Mould](https://www.abismould.com/info/breaking-down-injection-mold-costs-103163410.html) — these are Western-facing rapid-tooling quote platforms; a direct Chinese toolmaker-to-manufacturer quote likely comes in lower
 - Screw-in/metal furniture legs: $0.37-$1.50/pc bulk — [Accio B2B aggregator](https://www.accio.com/biz-cheap/supply-cheap-y-shape-sofa-leg); leveling feet retail ~$0.86/ea — eBay listing
 - Plastic extrusion die: simple structural profile $500-$3,000 — [DFMA](https://www.dfma.com/resources/plastic-extrusion-cost.asp), [Lakeland Plastics](https://lakelandplastics.com/plastic-extrusion-cost-factors/)
 - China domestic LTL/FTL trucking: $1.20-$2.00/km FTL, ~RMB 0.2-1.25/kg at 500km (conflicting sources) — [Sino-Shipping](https://www.sino-shipping.com/zh/road-inland-trucking-from-china/costs/how-ltl-ftl-pricing-works-in-china/)

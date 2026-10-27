@@ -2,8 +2,12 @@
 """Rough order-of-magnitude cost estimate for the expandable wire-deck base,
 in two sizes: a chair/loveseat module (24-36in wide) and a loveseat-through-
 sofa (56-90in wide, one SKU covers both). Both share the same depth (30in)
-and mechanism. Made and sold in China (Xiamen to Guangdong, ~550km) --
-freight and packaging are domestic factory-to-factory, not export.
+and mechanism. Materials are sourced, made, and sold in China (Xiamen to
+Guangdong, ~550km) -- resin, wire mesh, legs, hardware and tooling are all
+assumed domestic, not imported; freight and packaging are domestic
+factory-to-factory, not export. Where a sourced price was global-blended
+rather than China-specific, it's been adjusted down (or flagged as still
+needing a China-specific number) below.
 
 NOT A QUOTE. Every unit price below is a placeholder pulled from public
 vendor-blog and marketplace listings (see README.md "Cost sources"), not a
@@ -42,8 +46,20 @@ Two cost buckets:
 
 import argparse
 
-RESIN_PER_KG = 2.50   # PP, material + extrusion process, all-in
-WIRE_PER_KG = 1.50    # welded mesh steel, landed + powder-coated
+RESIN_PER_KG = 2.00   # PP, material + extrusion process, all-in, China-domestic
+# China-domestic PP resin runs ~$0.99/kg (Expert Market Research, China,
+# Q4 2025) vs. the ~$1.10/kg blended-global figure used before this was
+# confirmed as fully China-sourced. All-in (material + conversion) dropped
+# from $2.50 to $2.00/kg accordingly -- domestic Chinese extrusion
+# conversion labor/overhead is also cheaper than a generic global estimate,
+# though that part is still judgment, not a sourced number.
+WIRE_PER_KG = 1.00    # welded mesh steel, China-domestic, powder-coated
+# No landing/import premium applies -- fully domestic sourcing. The only
+# price data found was a single-seller India listing (~$0.65-0.70/kg
+# equivalent), not China-specific; $1.00/kg is a judgment estimate that
+# drops the prior $1.50/kg "landed" assumption since nothing is being
+# landed. Still the thinnest-sourced number in the whole BOM -- see the
+# cost-confirmation punch list in README.md.
 WIRE_KG_PER_M2 = 4.0  # 4mm wire @ 50mm pitch (Alibaba spec sheet)
 IN2_PER_M2 = 1550.0031
 
@@ -100,6 +116,15 @@ VELCRO_EACH = 0.70  # adhesive-backed hook strip, front stretcher only
 
 # ---------------------------------------------------------------------------
 # Non-recurring tooling (USD, one-time)
+#
+# LIKELY HIGH: these figures come from Western-facing rapid-tooling quote
+# platforms (TeamRapidTooling, Formlabs, ABIS Mould), priced for an
+# English-speaking overseas customer -- export paperwork, international
+# sales/support overhead. A Chinese manufacturer sourcing tooling directly
+# from a local toolmaker (not through that kind of platform) commonly pays
+# less for the same mold. No sourced discount figure exists for this, so
+# the numbers below are left as a conservative (too-high, not too-low)
+# placeholder rather than guessing a discount percentage.
 # ---------------------------------------------------------------------------
 SHARED_TOOLING = [
     ("Extrusion die, side rail profile", 2000,
