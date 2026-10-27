@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Rough order-of-magnitude cost estimate for the expandable wire-deck base,
-in two sizes: a chair/loveseat module (24-36in wide) and a full sofa
-(82-90in wide). Both share the same depth (30in) and mechanism.
+in two sizes: a chair/loveseat module (24-36in wide) and a loveseat-through-
+sofa (56-90in wide, one SKU covers both). Both share the same depth (30in)
+and mechanism. Made and sold in China (Xiamen to Guangdong, ~550km) --
+freight and packaging are domestic factory-to-factory, not export.
 
 NOT A QUOTE. Every unit price below is a placeholder pulled from public
 vendor-blog and marketplace listings (see README.md "Cost sources"), not a
@@ -18,7 +20,7 @@ to as-is.
 
 Sofa-length structural note: the chair variant's 3 stretchers (front,
 center, back) span only 24-36in, short enough for 4 corner legs alone.
-At 82-90in that span is too long to leave unsupported in the middle --
+At up to 90in that span is too long to leave unsupported in the middle --
 this adds 2 mid-span legs (one per telescoping half, since nothing can
 sit at a single fixed world-position across both sliding halves at once),
 each on its own small bracket bonded to the center stretcher, no rail
@@ -57,18 +59,30 @@ VARIANTS = {
         mid_brackets=0,
         pin_positions=7,      # 12in travel / 2in pitch + 1
         assembly=4.00,
-        packaging=1.50,
-        freight=5.00,
+        packaging=1.00,
+        freight=1.00,
     ),
     "sofa": dict(
-        width_range_in=(82, 90),
-        stretcher_kg=3.63,    # scaled ~2.42x vs. chair, by wire-panel-width ratio
+        # Covers loveseat (2-seater) through full 3-seat sofa in one SKU.
+        # 56in min is an ASSUMED loveseat floor -- confirm against real
+        # loveseat widths (commonly ~52-65in) before tooling.
+        width_range_in=(56, 90),
+        stretcher_kg=3.63,    # scaled ~2.42x vs. chair, by wire-panel-width ratio.
+        # Unchanged by widening the range down to 56in: stretcher tube
+        # length is set by Lmax (90in) + lock-engagement margin, not by
+        # travel. A lower min width means more overlap/nesting at the
+        # narrow end, which is free (tubes just slide deeper into each
+        # other) -- it costs no extra material or tooling.
         legs=6,               # 4 corner + 2 mid-span (one per telescoping half)
         mid_brackets=2,
-        pin_positions=5,      # 8in travel / 2in pitch + 1
+        # 5 NAMED widths (e.g. ~58/66/74/82/90in), not a uniform fine
+        # pitch -- real furniture sells specific SKU sizes, not arbitrary
+        # continuous ones, and 34in of travel at a 2in pitch would need
+        # 18 holes per stretcher (too many stress risers for one tube).
+        pin_positions=5,
         assembly=6.00,
-        packaging=3.00,
-        freight=9.00,
+        packaging=2.00,
+        freight=2.00,
     ),
 }
 
@@ -82,6 +96,7 @@ PIN_ASSEMBLY_EACH = 1.20
 PINNED_STRETCHERS = 2     # front + back, locked; center rides free
 BUSHING_EACH = 0.08
 MISC_FASTENERS = {"chair": 1.00, "sofa": 1.50}
+VELCRO_EACH = 0.70  # adhesive-backed hook strip, front stretcher only
 
 # ---------------------------------------------------------------------------
 # Non-recurring tooling (USD, one-time)
@@ -149,9 +164,17 @@ def bom(variant_name):
          f"{v['pin_positions']} positions x {PINNED_STRETCHERS} locked stretchers"),
         ("Misc fasteners / wire-panel retention clips", MISC_FASTENERS[variant_name], 1,
          "lump-sum estimate"),
+        ("Adhesive hook Velcro, front stretcher", VELCRO_EACH, 1,
+         "retains the foam body against forward slide (the dominant failure "
+         "mode -- people sit down and push off from the front edge). PP has "
+         "low surface energy: spec an adhesive rated for polyolefins, or "
+         "mechanically fasten the strip through the stretcher rather than "
+         "relying on adhesive alone"),
         ("Assembly labor (contract manufacturing)", v["assembly"], 1, "judgment estimate"),
         ("Packaging (bulk/palletized, no retail box)", v["packaging"], 1,
-         "judgment estimate -- ships to mfr's factory, no retail/branding requirement"),
+         "judgment estimate -- made and sold in China, domestic factory-to-factory "
+         "shipment (Xiamen to Guangdong, ~550km), no retail/branding requirement, "
+         "no export dunnage"),
     ]
     return lines
 
@@ -201,7 +224,7 @@ def print_variant(name, args):
     for item_name, cost, qty, basis in bom(name):
         line = cost * qty
         print(f"  {item_name:<52} ${line:7.2f}   [{basis}]")
-    print(f"  {'Freight + duties (per unit, estimate)':<52} ${v['freight']:7.2f}")
+    print(f"  {'Domestic freight (Xiamen to Guangdong, ~550km)':<52} ${v['freight']:7.2f}")
 
     print("\nTooling (one-time, non-recurring):")
     for item_name, cost, basis in SHARED_TOOLING:
