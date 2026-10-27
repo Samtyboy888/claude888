@@ -36,6 +36,27 @@ Flags: `--wire-d`, `--pitch`, `--min-width-in`, `--max-width-in`,
 - **Width range: 24"–36"** (12" of travel). Sets the wire panel width
   (≥19" each, per `calc.py`) and the telescoping stretcher length.
 
+## Leg mounting — corner brackets
+
+Legs mount at the four corners, where a side rail meets a stretcher end,
+via a molded corner bracket with an integral leg boss:
+
+- **Fixed corner** (left side, ×2) — bracket bonded to the side rail and
+  the stretcher's *outer sleeve*. Doesn't move.
+- **Sliding corner** (right side, ×2) — bracket bonded to the side rail
+  and the stretcher's *inner tube*. This bracket is the rigid tie point
+  that keeps the right rail square to all three stretchers as the frame
+  slides — not just a leg mount.
+- **Insert**: 3/8"-16 threaded brass, heat-set or molded into each
+  bracket's boss — the common spec for screw-in furniture legs. Confirm
+  against the actual leg hardware before tooling.
+- Front/back corners each carry a leg (4 total). The center stretcher's
+  rail junctions are plain T-ties with no leg; add a 5th, center leg only
+  if the 36" max-width span needs the extra support.
+- The bracket-to-tube bond is permanent (riveted/bonded) — it is *not*
+  the telescoping joint. The width-adjustment slide stays free until the
+  separate locking mechanism (below) engages.
+
 ## Assumptions to confirm (not in the brief)
 
 - **Locking mechanism.** Nothing in the brief says how the width setting
@@ -46,8 +67,5 @@ Flags: `--wire-d`, `--pitch`, `--min-width-in`, `--max-width-in`,
   past each other without snagging, they need to ride on slightly
   different planes (a few mm apart) within the deck's overall thickness —
   not specified yet.
-- **Leg mounting.** 3" screw-in legs — standard threaded insert assumed,
-  exact thread/size and mounting points (rail ends vs. stretcher ends) not
-  specified.
 - **Corrosion protection** on the welded wire grid (zinc/powder coat) —
   not specified; matters if this is for outdoor/patio use.
