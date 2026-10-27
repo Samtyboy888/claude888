@@ -57,6 +57,19 @@ via a molded corner bracket with an integral leg boss:
   the telescoping joint. The width-adjustment slide stays free until the
   separate locking mechanism (below) engages.
 
+## Isometric illustration
+
+No photorealistic rendering available in this session — `isometric_view.py`
+generates a 2:1 isometric exploded-view SVG instead (line-art technical
+illustration, embedded in the design brief artifact). Not a CAD export.
+
+```
+python3 isometric_view.py > isometric_view.svg.inc
+```
+
+Prints inner SVG markup (no outer `<svg>` tag) sized to the drawing's
+bounding box, reported on stderr, for pasting into a `viewBox`.
+
 ## Width lock — detent pin (proposed)
 
 Spring-loaded ball-detent pull-pin through the outer sleeve of the front
