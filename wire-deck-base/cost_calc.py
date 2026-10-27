@@ -7,6 +7,14 @@ vendor-blog and marketplace listings (see README.md "Cost sources"), not a
 real supplier quote. Treat the output as a starting point for budgeting and
 for sanity-checking real quotes, not as a number to commit to.
 
+Sales model: this is a B2B component sold primarily to foam sofa
+manufacturers, who pass its cost straight through to the end customer as a
+line-item add-on (e.g. "+ riser kit: $X") rather than marking it up the way
+they would the sofa itself. So the number that matters downstream isn't a
+retail MSRP -- it's our landed cost plus a wholesale/OEM margin, which is
+what shows up on the sofa manufacturer's own BOM and gets passed on close
+to as-is.
+
 Two cost buckets:
   - Recurring (BOM + labor + packaging + freight): scales per unit, improves
     only modestly with volume (bulk component pricing).
@@ -40,7 +48,9 @@ BOM = [
     ("Misc fasteners / wire-panel retention clips", 1.00, 1, "lump-sum estimate"),
     ("Assembly labor (contract manufacturing)", 4.00, 1,
      "judgment estimate, moderate-complexity furniture assembly"),
-    ("Packaging (corrugated + foam corners)", 4.00, 1, "judgment estimate"),
+    ("Packaging (bulk/palletized, no retail box — ships to mfr's factory)", 1.50, 1,
+     "judgment estimate, lower than DTC retail packaging since there's no "
+     "branding/shelf-ready requirement for a B2B factory-floor shipment"),
 ]
 
 FREIGHT_PER_UNIT = 5.00  # ocean freight + duties, amortized -- highly destination-dependent
@@ -78,10 +88,39 @@ def unit_cost(volume):
     return recurring, tooling_per_unit, recurring + tooling_per_unit
 
 
+# ---------------------------------------------------------------------------
+# Foam savings -- the real pitch to a sofa manufacturer: this base replaces
+# structural foam height with cheap plastic/wire/leg, at the same overall
+# product height. HEAVILY CAVEATED: web search turned up no real bulk/OEM
+# foam price, only a single retail sheet listing (~$12/ft3). Bulk foam
+# commonly runs well under retail, but there is no sourced number here --
+# this is a framework to plug real quotes into, not a number to pitch with.
+# ---------------------------------------------------------------------------
+FOAM_COST_PER_FT3 = 4.50  # UNSOURCED placeholder -- see caveat above and README
+FOOTPRINT_DEPTH_IN = 30.0
+FOOTPRINT_WIDTH_IN = 30.0  # mid-travel width, illustrative
+HEIGHT_REPLACED_IN = 4.0   # legs (3in) + frame (~0.47in) + wire-panel offset (~0.79in)
+
+
+def foam_savings(width_in=FOOTPRINT_WIDTH_IN, depth_in=FOOTPRINT_DEPTH_IN,
+                  height_in=HEIGHT_REPLACED_IN, foam_cost_per_ft3=FOAM_COST_PER_FT3):
+    volume_ft3 = (width_in * depth_in * height_in) / 1728.0  # in^3 -> ft^3
+    return volume_ft3, volume_ft3 * foam_cost_per_ft3
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--retail-multiple", type=float, default=3.0,
-                     help="rule-of-thumb landed-cost-to-MSRP multiple (default 3.0x)")
+    ap.add_argument("--oem-margin-pct", type=float, default=0.30,
+                     help="markup over landed cost sold to the sofa manufacturer, "
+                          "as a fraction (default 0.30 = 30%%). This is a B2B "
+                          "component sale, not a retail product -- no retail "
+                          "multiple applies. The sofa manufacturer is expected to "
+                          "pass this (or close to it) straight through to the end "
+                          "customer as a line-item add-on, not mark it up the way "
+                          "they would the sofa itself.")
+    ap.add_argument("--foam-cost-per-ft3", type=float, default=FOAM_COST_PER_FT3,
+                     help="bulk/OEM foam cost, $/ft3 -- UNSOURCED placeholder, "
+                          "plug in a real quote once you have one")
     args = ap.parse_args()
 
     print("BOM (per unit, at baseline/1000-unit pricing):")
@@ -97,13 +136,26 @@ def main():
     print(f"  {'Total tooling':<62} ${tooling_total():>8,.0f}\n")
 
     print(f"{'Volume':>10} | {'Recurring/unit':>15} | {'Tooling/unit':>13} | "
-          f"{'Landed cost/unit':>17} | {'Rule-of-thumb MSRP':>19}")
-    print("-" * 85)
+          f"{'Our landed cost':>16} | {'Wholesale price to mfr':>23}")
+    print("-" * 90)
     for v in VOLUME_TIERS:
         recurring, tool_per, total = unit_cost(v)
-        msrp = total * args.retail_multiple
+        wholesale = total * (1 + args.oem_margin_pct)
         print(f"{v:>10,} | ${recurring:>13.2f} | ${tool_per:>11.2f} | "
-              f"${total:>15.2f} | ${msrp:>17.2f}")
+              f"${total:>14.2f} | ${wholesale:>21.2f}")
+
+    vol_ft3, savings = foam_savings(foam_cost_per_ft3=args.foam_cost_per_ft3)
+    print(f"\nFoam savings (UNSOURCED placeholder foam price -- see caveat in source):")
+    print(f"  Structural height replaced by base: {HEIGHT_REPLACED_IN:.1f}in "
+          f"(legs 3.0 + frame ~0.47 + wire-panel offset ~0.79)")
+    print(f"  Foam volume no longer needed, {FOOTPRINT_WIDTH_IN:.0f}x{FOOTPRINT_DEPTH_IN:.0f}in "
+          f"footprint: {vol_ft3:.2f} ft3")
+    print(f"  Foam cost saved @ ${args.foam_cost_per_ft3:.2f}/ft3: ${savings:.2f}")
+    print(f"  Net vs. our wholesale price (10k-volume): "
+          f"${savings - unit_cost(10000)[2] * (1 + args.oem_margin_pct):+.2f} "
+          f"-- NEGATIVE means the component costs the manufacturer more than "
+          f"the foam it displaces; get a real foam quote before using this "
+          f"to pitch net savings.")
 
 
 if __name__ == "__main__":

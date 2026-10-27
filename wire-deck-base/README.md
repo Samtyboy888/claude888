@@ -1,11 +1,20 @@
 # Expandable Wire-Deck Base
 
-A seating/bench base: fixed 30" depth, width adjustable from 24" to 36"
-(12" of travel), plastic frame (two fixed-length side rails + three
-telescoping stretchers — front, center, back), topped with a welded steel
-wire grid deck (4.0mm wire, 50mm pitch) in two overlapping panels that
-slide past each other as the frame widens. 3" screw-in legs. No integrated
-foam — bare structural deck.
+A B2B component sold to foam sofa manufacturers, not an aftermarket retail
+product. A legless floor-sofa module sits low by design — raising it to
+standard American seat height (~17-19") the obvious way, by molding taller
+foam, costs more foam *and* loses the low, grounded profile that's the
+point of that style. This base adds the height from underneath instead,
+so the foam body stays unchanged: fixed 30" depth, width adjustable from
+24" to 36" (12" of travel), plastic frame (two fixed-length side rails +
+three telescoping stretchers — front, center, back), topped with a welded
+steel wire grid deck (4.0mm wire, 50mm pitch) in two overlapping panels
+that slide past each other as the frame widens. 3" screw-in legs. No
+integrated foam — bare structural deck.
+
+Sales model: sold to the sofa manufacturer, who passes the cost through to
+their own customer as a line-item add-on rather than marking it up the way
+they would the sofa itself.
 
 Separate product from the sofa riser (`../riser/`) — unrelated project,
 same repo.
@@ -123,6 +132,37 @@ discount. Run `python3 cost_calc.py` for the full line-item breakdown.
 **This is a rough order of magnitude, not a quote.** Get real numbers from
 an extruder, a molder, and a wire-mesh supplier before budgeting against
 it.
+
+### Wholesale price, B2B sale
+
+This is a component sale to sofa manufacturers, not a retail product —
+no retail multiple applies. At a 30% OEM margin (judgment default,
+`--oem-margin-pct` in `cost_calc.py`):
+
+| Volume | Our landed cost | Wholesale price to manufacturer |
+|---|---|---|
+| 1,000 | $47.93 | $62.31 |
+| 10,000 | $29.34 | $38.14 |
+| 100,000 | $25.62 | $33.31 |
+
+The manufacturer is expected to pass this through to their own customer
+close to as-is, as a line-item add-on, not mark it up the way they would
+the sofa itself.
+
+### Foam savings — doesn't close the gap yet
+
+The real pitch: this base replaces ~4" of structural foam height (legs 3"
++ frame ~0.47" + wire-panel offset ~0.79") with cheap plastic/wire/leg
+structure, so the manufacturer never molds that extra foam. Over a 30"x30"
+footprint that's 2.08 ft³ of avoided foam.
+
+**No real bulk/OEM foam price was found** — web search turned up only a
+single retail sheet-foam listing (~$12/ft³) and density specs, no
+wholesale number. At an unsourced $4.50/ft³ placeholder, foam savings are
+only ~$9.38 — well short of the ~$38 wholesale price at 10,000 units. Run
+`python3 cost_calc.py --foam-cost-per-ft3 <real number>` once you have a
+real quote. Until then, lead with raise + style; foam savings is not yet
+a standalone justification for the price.
 
 ### Cost sources (web search, late Oct 2026 — vendor blogs/marketplaces, not price surveys)
 
