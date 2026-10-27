@@ -1,10 +1,11 @@
 # Expandable Wire-Deck Base
 
-A seating/bench base: fixed 30" depth, width adjustable toward 36", plastic
-frame (two fixed-length side rails + three telescoping stretchers — front,
-center, back), topped with a welded steel wire grid deck (4.0mm wire,
-50mm pitch) in two overlapping panels that slide past each other as the
-frame widens. 3" screw-in legs. No integrated foam — bare structural deck.
+A seating/bench base: fixed 30" depth, width adjustable from 24" to 36"
+(12" of travel), plastic frame (two fixed-length side rails + three
+telescoping stretchers — front, center, back), topped with a welded steel
+wire grid deck (4.0mm wire, 50mm pitch) in two overlapping panels that
+slide past each other as the frame widens. 3" screw-in legs. No integrated
+foam — bare structural deck.
 
 Separate product from the sofa riser (`../riser/`) — unrelated project,
 same repo.
@@ -30,11 +31,13 @@ python3 calc.py
 Flags: `--wire-d`, `--pitch`, `--min-width-in`, `--max-width-in`,
 `--overlap-margin-mm`, `--stretcher-len-in`, `--min-engagement-mm`.
 
+## Confirmed
+
+- **Width range: 24"–36"** (12" of travel). Sets the wire panel width
+  (≥19" each, per `calc.py`) and the telescoping stretcher length.
+
 ## Assumptions to confirm (not in the brief)
 
-- **Minimum width.** Only the max (36") and depth (30", fixed) were given.
-  Calculator defaults to 24" as a placeholder — this directly sets how
-  wide the wire panels and how long the telescoping stretchers need to be.
 - **Locking mechanism.** Nothing in the brief says how the width setting
   is held once extended — no pin, cam lock, or detent implied. Without
   one, a seated/leaned-on load can push the frame to slide. This needs an

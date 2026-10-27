@@ -6,8 +6,8 @@ stretchers (front, center, back) sliding between two fixed-length side
 rails. Load deck is a welded steel wire grid (4.0mm wire, 50mm pitch) in
 two overlapping panels that slide past each other as the frame widens.
 
-Run with no arguments for the default case (36" max width, 24" assumed
-min width -- confirm the real minimum before cutting tooling).
+Run with no arguments for the confirmed default case: 24" min width,
+36" max width (12" of travel).
 """
 
 import argparse
@@ -80,13 +80,13 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--wire-d", type=float, default=4.0, help="wire diameter, mm")
     ap.add_argument("--pitch", type=float, default=50.0, help="wire grid pitch, mm")
-    ap.add_argument("--min-width-in", type=float, default=24.0,
-                     help="assumed minimum width, inches (CONFIRM -- not given in the brief)")
+    ap.add_argument("--min-width-in", type=float, default=24.0, help="min width, inches")
     ap.add_argument("--max-width-in", type=float, default=36.0, help="max width, inches")
     ap.add_argument("--overlap-margin-mm", type=float, default=50.0,
                      help="minimum structural overlap to keep at max extension")
     ap.add_argument("--stretcher-len-in", type=float, default=24.0,
-                     help="nominal (closed) length of each telescoping stretcher half, inches")
+                     help="nominal (closed) length of each telescoping stretcher half, inches "
+                          "(ASSUMED -- not yet specified; coincidentally same number as min width)")
     ap.add_argument("--min-engagement-mm", type=float, default=40.0,
                      help="minimum tube-in-tube engagement needed to resist racking")
     args = ap.parse_args()
