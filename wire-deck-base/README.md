@@ -94,6 +94,48 @@ alone. If prototype testing shows sideways or backward slip is also a
 problem, the same strip and mounting detail extends cheaply to the back
 stretcher or the side rails.
 
+## First print — step by step (no prior 3D printing experience needed)
+
+1. **Printer**: a Bambu Lab P1S (or similar enclosed, all-metal-hotend
+   printer with a ~250mm+ build volume) — see chat for the reasoning.
+   Follow its own included quick-start guide for unboxing, Wi-Fi pairing,
+   and the first-print auto bed-leveling/calibration. Don't skip that
+   calibration; everything downstream depends on it.
+2. **Slicer**: install Bambu Studio (free, from Bambu Lab's site) — the
+   software that turns an STL file into printer instructions.
+3. **Filament**: start with PETG (e.g. Bambu PETG Basic), not PLA. It's
+   nearly as easy to print on a Bambu printer and is tougher — PLA is
+   brittle enough that the bracket's thin trough walls could crack during
+   a fit test, which would tell you nothing useful about the real design.
+4. **Files**: the 5 STL files in `stl_out/` (sent alongside this repo, or
+   regenerate with `python3 generate_prototype_stl.py --part all
+   --length 250`). Drag each into Bambu Studio.
+5. **Orientation and supports**, per part:
+   - `rail`, `tube`: lay flat as generated, no supports.
+   - `sleeve`: lay flat as generated, open side up, no supports.
+   - `mid`: lay flat as generated. The leg boss is slightly narrower than
+     the mounting pad above it (a few mm of overhang each side) — try
+     without supports first; if the underside looks rough, add supports
+     and reprint.
+   - `corner`: **needs supports.** The leg boss (22x22mm) sits under a
+     much wider junction block (~42x42mm) — a real overhang, not a
+     modeling error (this is exactly how the real bracket works; FDM
+     printing just can't float that much material unsupported). Turn on
+     tree or normal supports for this part specifically.
+6. **Print**, then remove supports from the corner bracket with flush
+   cutters or pliers once it's done.
+7. **Test fit**: slide `tube` into `sleeve` — should move with slight
+   resistance from the 0.6mm/side clearance, not bind or rattle loose.
+   Seat `rail` and `sleeve` into the corner bracket's two troughs — they
+   should drop in with a snug fit (0.4mm clearance was built in). If a
+   fresh print is reported as not fitting, FDM prints often come out
+   slightly oversized (extrusion width, first-layer squish) before
+   sanding — don't assume the model is wrong first.
+
+If the first layer doesn't stick, re-level the bed and wipe it with
+isopropyl alcohol before trying again — far and away the most common
+first-print problem, not a filament or model issue.
+
 ## Printable prototype parts
 
 `generate_prototype_stl.py` outputs test coupons for the four highest-risk
